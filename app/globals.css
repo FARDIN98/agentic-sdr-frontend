@@ -9,6 +9,8 @@
    §3 colors · §4 type · §5 spacing · §6 radius · §7 layout/motion
    The dashboard is dark by default. Light values exist for the
    marketing surface only (toggle via removing .dark on <html>).
+   Light-mode tertiary/disabled tokens extend §3 marketing palette
+   pending §14 marketing scope decision.
    ───────────────────────────────────────────────────────────── */
 
 @theme inline {
@@ -19,7 +21,7 @@
   --font-bn-display: var(--font-bn-display), var(--font-bn), serif;
   --font-heading: var(--font-geist-sans);
 
-  /* §3 Color tokens — semantic (dashboard dark) */
+  /* §3 Color tokens — semantic */
   --color-bg: var(--bg);
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
@@ -79,14 +81,14 @@
   --spacing-7: 64px;
   --spacing-8: 96px;
 
-  /* §6 Border radius — 0–2px max */
+  /* §6 Border radius — 0 or 2px only. shadcn aliases all collapse to --radius-1. */
   --radius-0: 0px;
   --radius-1: 2px;
-  --radius-sm: 0px;
-  --radius-md: 2px;
-  --radius-lg: 2px;
-  --radius-xl: 2px;
-  --radius: 2px;
+  --radius-sm: var(--radius-1);
+  --radius-md: var(--radius-1);
+  --radius-lg: var(--radius-1);
+  --radius-xl: var(--radius-1);
+  --radius: var(--radius-1);
 
   /* §4 Type scale — fixed sizes for dashboard */
   --text-xs: 11px;
@@ -126,30 +128,11 @@
   --z-toast: 60;
 }
 
-/* Light surface — marketing only. Dashboard never sees this. */
+/* ─── shadcn alias layer ────────────────────────────────────────
+   Lives once at :root. Aliases point at semantic tokens (--bg,
+   --text, --accent, ...) which themselves rebind under .dark.
+   So a single declaration here cascades through both themes. */
 :root {
-  --bg: #FAFAF9;
-  --surface: #FFFFFF;
-  --surface-2: #F4F3F0;
-  --hairline: #E5E4E0;
-  --hairline-strong: #D4D3CE;
-  --text: #0A0A0A;
-  --text-muted: #6B6B66;
-  --text-tertiary: #44443F;
-  --text-disabled: #9A9A95;
-  --accent: #3B82F6;
-  --accent-fg: #0A0A0A;
-  --warning: #D9A441;
-  --success: #3F8F5C;
-  --danger: #C2452C;
-
-  --status-agent-bg: rgb(59 130 246 / 0.12);
-  --status-waiting-bg: #E5E4E0;
-  --status-escalated-bg: rgb(217 164 65 / 0.12);
-  --status-closed-bg: #F4F3F0;
-  --status-failed-bg: rgb(194 69 44 / 0.12);
-
-  /* shadcn aliases */
   --background: var(--bg);
   --foreground: var(--text);
   --card: var(--surface);
@@ -175,6 +158,32 @@
   --sidebar-accent-foreground: var(--text);
   --sidebar-border: var(--hairline);
   --sidebar-ring: var(--accent);
+
+  /* Status pill alphas that are identical across themes */
+  --status-agent-bg: rgb(59 130 246 / 0.12);
+  --status-escalated-bg: rgb(217 164 65 / 0.12);
+  --status-failed-bg: rgb(194 69 44 / 0.12);
+}
+
+/* Light surface — marketing only. Dashboard never sees this. */
+:root {
+  --bg: #FAFAF9;
+  --surface: #FFFFFF;
+  --surface-2: #F4F3F0;
+  --hairline: #E5E4E0;
+  --hairline-strong: #D4D3CE;
+  --text: #0A0A0A;
+  --text-muted: #6B6B66;
+  --text-tertiary: #9A9A95;
+  --text-disabled: #C4C3BE;
+  --accent: #3B82F6;
+  --accent-fg: #0A0A0A;
+  --warning: #D9A441;
+  --success: #3F8F5C;
+  --danger: #C2452C;
+
+  --status-waiting-bg: #E5E4E0;
+  --status-closed-bg: #F4F3F0;
 }
 
 /* §1 Dark mode default — every dashboard surface */
@@ -194,37 +203,8 @@
   --success: #3F8F5C;
   --danger: #C2452C;
 
-  --status-agent-bg: rgb(59 130 246 / 0.12);
   --status-waiting-bg: #2A2A2A;
-  --status-escalated-bg: rgb(217 164 65 / 0.12);
   --status-closed-bg: #1A1A1A;
-  --status-failed-bg: rgb(194 69 44 / 0.12);
-
-  --background: var(--bg);
-  --foreground: var(--text);
-  --card: var(--surface);
-  --card-foreground: var(--text);
-  --popover: var(--surface);
-  --popover-foreground: var(--text);
-  --primary: var(--accent);
-  --primary-foreground: var(--accent-fg);
-  --secondary: var(--surface-2);
-  --secondary-foreground: var(--text);
-  --muted: var(--surface-2);
-  --muted-foreground: var(--text-muted);
-  --accent-foreground: var(--accent-fg);
-  --destructive: var(--danger);
-  --border: var(--hairline);
-  --input: var(--hairline);
-  --ring: var(--accent);
-  --sidebar: var(--surface);
-  --sidebar-foreground: var(--text);
-  --sidebar-primary: var(--accent);
-  --sidebar-primary-foreground: var(--accent-fg);
-  --sidebar-accent: var(--surface-2);
-  --sidebar-accent-foreground: var(--text);
-  --sidebar-border: var(--hairline);
-  --sidebar-ring: var(--accent);
 }
 
 @layer base {
@@ -254,10 +234,15 @@
     font-family: var(--font-mono);
     font-variant-numeric: tabular-nums;
   }
-  /* §7 Focus-visible — 2px accent, 2px offset, never outline:none unreplaced */
+  /* §7 Focus-visible — 2px accent outline. 2px offset default, 1px for inputs. */
   :focus-visible {
     outline: var(--border-2) solid var(--accent);
     outline-offset: var(--border-2);
+  }
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline-offset: var(--border-1);
   }
   /* §9 Reduced motion respected globally */
   @media (prefers-reduced-motion: reduce) {
