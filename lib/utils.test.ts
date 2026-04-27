@@ -11,6 +11,11 @@ describe("cn()", () => {
   });
 
   it("resolves conditional object form", () => {
-    expect(cn({ foo: true, bar: false }, "baz")).toBe("foo baz");
+    /* order-independent so a clsx/twMerge minor bump that re-orders
+       non-conflicting classes doesn't break the test */
+    expect(cn({ foo: true, bar: false }, "baz").split(/\s+/).sort()).toEqual([
+      "baz",
+      "foo",
+    ]);
   });
 });

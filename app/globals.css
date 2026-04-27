@@ -2,23 +2,26 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:is(.dark, .dark *));
 
 /* ─────────────────────────────────────────────────────────────
    Agentic SDR — DESIGN.md tokens
    §3 colors · §4 type · §5 spacing · §6 radius · §7 layout/motion
-   The dashboard is dark by default. Light values exist for the
-   marketing surface only (toggle via removing .dark on <html>).
-   Light-mode tertiary/disabled tokens extend §3 marketing palette
-   pending §14 marketing scope decision.
+   The dashboard is dark by default (.dark class on <html>).
+   Light :root values exist for the marketing surface; not consumed
+   yet. Theme-switching is not wired — flip the className manually
+   for now or add next-themes when marketing routes land.
+   §5 NOTE: --spacing-1..8 intentionally REPLACE Tailwind defaults
+   (p-1=4px, p-2=8px, p-3=16px, ...). DESIGN.md §5 mandates this
+   exact ladder; no arbitrary values, no default 4px linear scale.
    ───────────────────────────────────────────────────────────── */
 
 @theme inline {
   /* §4 Typography — families wired to next/font + geist npm */
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  --font-bn: var(--font-bn), "Noto Sans Bengali", system-ui, sans-serif;
-  --font-bn-display: var(--font-bn-display), var(--font-bn), serif;
+  --font-bn: var(--font-hind-siliguri), "Noto Sans Bengali", system-ui, sans-serif;
+  --font-bn-display: var(--font-noto-serif-bengali), var(--font-bn), serif;
   --font-heading: var(--font-geist-sans);
 
   /* §3 Color tokens — semantic */

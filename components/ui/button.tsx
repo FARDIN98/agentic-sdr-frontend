@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils"
    Hover/active = ±6% lightness via color-mix on --accent.
    Focus-visible inherits the global 2px accent outline (globals.css). */
 const buttonVariants = cva(
-  "inline-flex shrink-0 items-center justify-center rounded-[var(--radius-1)] border border-transparent bg-clip-padding text-[length:var(--text-base)] font-medium whitespace-nowrap transition-colors duration-[var(--dur-fast)] ease-[var(--ease-out)] outline-none select-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-[var(--surface-2)] disabled:text-[var(--text-disabled)] aria-invalid:border-[var(--danger)] [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-[16px]",
+  "inline-flex shrink-0 items-center justify-center rounded-[var(--radius-1)] border border-transparent text-[length:var(--text-base)] font-medium whitespace-nowrap transition-colors duration-[var(--dur-fast)] ease-[var(--ease-out)] outline-none select-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-[var(--surface-2)] disabled:text-[var(--text-disabled)] aria-invalid:border-[var(--danger)] [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-[16px]",
   {
     variants: {
       variant: {

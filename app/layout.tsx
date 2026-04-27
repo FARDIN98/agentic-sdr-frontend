@@ -8,14 +8,14 @@ import { cn } from "@/lib/utils";
 const hindSiliguri = Hind_Siliguri({
   subsets: ["bengali", "latin"],
   weight: ["400", "500", "600"],
-  variable: "--font-bn",
+  variable: "--font-hind-siliguri",
   display: "swap",
 });
 
 const notoSerifBengali = Noto_Serif_Bengali({
   subsets: ["bengali", "latin"],
   weight: ["500", "700"],
-  variable: "--font-bn-display",
+  variable: "--font-noto-serif-bengali",
   display: "swap",
 });
 
